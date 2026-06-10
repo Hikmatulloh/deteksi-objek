@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -17,7 +15,7 @@ class DetectController extends Controller
         $request->validate([
             'image' => 'required|image'
         ]);
-
+        //Mengirim dan proses file gambar ke API Flask
         $response = Http::attach(
             'image',
             file_get_contents($request->image),
@@ -27,7 +25,8 @@ class DetectController extends Controller
         $data = $response->json();
 
         return view('detect', [
-            'objects' => $data['objects']
+            'objects' => $data['objects'],
+            'detected_image' => $data['image']
         ]);
     }
 }
